@@ -18,7 +18,7 @@ def S_tot(arr):
     return S
 
 class Spin_chain():
-    def __init__(self, Num_spins=10):
+    def __init__(self, Num_spins=18):
         self.Num_spins = Num_spins
         self.Temp = float(input('Temperature:'))
         self.start_state = [rnd.randrange(-1,2,2) for i in range(Num_spins)]
@@ -33,10 +33,12 @@ class Spin_chain():
         counter = 0
         old_S = S_tot(old_state)
 
-        while(counter < 50000):
-            spin_change = rnd.randint(0,self.Num_spins-1)
+        while(counter < 100000):
+            spin_change_1 = rnd.randint(0,self.Num_spins-1)
+
             new_state = old_state
-            new_state[spin_change] = -1*new_state[spin_change]
+            new_state[spin_change_1] = -1*new_state[spin_change_1]
+
             new_E = Energy(new_state, self.J)
             new_S = S_tot(new_state)
 
@@ -52,8 +54,8 @@ class Spin_chain():
                 if new_E > old_E:
                     k = 1
                 else:
-                    k = exp(-(new_E-old_E)/self.Temp)
-            if u <= k:
+                    k = exp((new_E-old_E)/self.Temp)
+            if u >= k:
                 old_E = new_E
                 old_S = new_S
                 old_state = new_state
@@ -75,10 +77,10 @@ J_neg.update()
 fig, axs = plt.subplots(2,2)
 axs[0,0].plot(J_pos.E_arr, label='Energy, J = '+str(J_pos.J))
 axs[0,0].legend()
-axs[0,1].plot(J_pos.S_t, label='Total spin, J = '+str(J_pos.J), color='orange')
-axs[0,1].legend()
-axs[1,0].plot(J_neg.E_arr, label='Energy, J = '+str(J_neg.J))
+axs[1,0].plot(J_pos.S_t, label='Total spin, J = '+str(J_pos.J), color='orange')
 axs[1,0].legend()
+axs[0,1].plot(J_neg.E_arr, label='Energy, J = '+str(J_neg.J))
+axs[0,1].legend()
 axs[1,1].plot(J_neg.S_t, label='Total spin, J = '+str(J_neg.J), color='orange')
 axs[1,1].legend()
 
