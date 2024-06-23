@@ -68,8 +68,7 @@ class Spin_chain():
 
 J_pos = Spin_chain()
 J_neg = Spin_chain()
-print(J_pos.Temp)
-print(J_pos.Temp==0)
+
 J_pos.update()
 J_neg.update()
 
